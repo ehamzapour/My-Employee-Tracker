@@ -1,6 +1,6 @@
 const mysql = require ('mysql2');
 const inquirer = require('inquirer');
-const consoleTable = require('console.table');
+require('console.table');
 
 
 //Connect to Database
@@ -27,92 +27,104 @@ startPrompt = () => {
 
 //Prompt to Choose from List
 const options = () => {
-    inquirer.prompt ({
-        type: 'list',
-        name: 'choices',
-        message: 'What would you like to do?',
-        choices: [
-            'View All Employees',
-            'View All Departments',
-            'View All Roles',
-            'Add Employee',
-            'Add Role',
-            'Add Department',
-            'Update Employee Role',
-            'Quit'
-        ]
+    inquirer.prompt ([
+        {
+            type: 'list',
+            name: 'choices',
+            message: 'What would you like to do?',
+            choices: [
+                'View All Employees',
+                'View All Departments',
+                'View All Roles',
+                'Add Employee',
+                'Add Role',
+                'Add Department',
+                'Update Employee Role',
+                'Quit'
+            ]
+        }
 
-    })
+    ])
 
-    .then((answers) => {
-        const { choices } = answers;
+    .then((answer) => {
+        switch (answer.choices) {
 
-        if(choices === "View all employees") {
+        case "View all employees":
             showEmployees();
-        }
+            break;
 
-        if(choices === "View all departments") {
+        case "View all departments":
             showDepartments();
-        }
+            break;
 
-        if(choices === "View all roles") {
+        case "View all roles":
             showRoles();
-        }
+            break;
+        
 
-        if(choices === "Add employee") {
+        case "Add employee":
             addEmployee();
-        }
+            break;
+        
 
-        if(choices === "Add role") {
+        case "Add role":
             addRole();
-        }
+            break;
+        
 
-        if(choices === "Add department") {
+        case "Add department":
             addDepartment();
-        }
+            break;
+        
 
-        if(choices === "Quit") {
-            connection.end();
+        case "Update Employee Role":
+            updateRole();
+            break;
+        
+
+        case "Quit":
+            connection.end()
+            break;
         }
-    })
+    });
 };
 
 //View All Employees
 showEmployees = () => {
-    console.log('All Employees...\n');
-
-    const query = `SELECT * FROM employee`;
-
+    var query = 'SELECT * FROM employee';
     connection.query(query, (err, res) => {
         if (err) throw err;
-        console.log(res.length + ' employees found!');
+        console.log(res.length + 'Success!');
         console.table('All Employees:', res);
-        option();
     })
-                        
 };
+    
+
+   
+                        
+
 
 //View All Departments
-showDepartments = () => {
-    const sql = 'SELECT * FROM department';
+// showDepartments = () => {
+//     const sql = 'SELECT * FROM department';
 
-    connection.query((err, res) => {
-        if (err) throw err;
-        console.table('All Departments:', res);
-        option();
-    })
-};
+//     connection.query((err, res) => {
+//         if (err) throw err;
+//         console.table('All Departments:', res);
+//         option();
+//     })
+// };
 
 //View All Roles
-showRoles = () => {
-    const sql = 'SELECT * FROM roles';
+// showRoles = () => {
+//     const sql = 'SELECT * FROM roles';
 
-    connection.query((err, res) => {
-        if (err) throw err;
-        console.table('All Roles:', res);
-        option();
-    })
-};
+//     connection.query((err, res) => {
+//         if (err) throw err;
+//         console.table('All Roles:', res);
+//         option();
+//     })
+// };
 
 // //Add Employee
 // addEmployee = () => {
