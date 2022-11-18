@@ -18,4 +18,4 @@ Email: ehamzapour@gmail.com
 ## Demo
 ![demonstration gif](./images/employeetracker.gif)
 
-[Full Size of the Demonstration Video](./images/trackervideo.webm)
+[Full Size of the Demonstration Video](file:///Users/viyanhamzapour/Desktop/Untitled_%20Nov%2018,%202022%2012_14%20AM.webm)
