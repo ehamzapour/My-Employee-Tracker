@@ -16,6 +16,6 @@ Run NPM i
 Email: ehamzapour@gmail.com
 
 ## Demo
-![demonstration gif](./dist/images/Team-Profiler.gif)
+![demonstration gif](./images/employeetracker.gif)
 
-[Full Size of the Demonstration Video](https://drive.google.com/file/d/15JLAlhCY8znFUC0DAf4oi5ZcvvKaFpVK/view)
+[Full Size of the Demonstration Video](./images/trackervideo.webm)
