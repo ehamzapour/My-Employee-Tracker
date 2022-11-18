@@ -170,51 +170,75 @@ function addEmployee() {
     })
 };
 
-   
-                        
+//Add Role
+function addRole() {
+    connection.query('SELECT * FROM department',(err, res) => {
+        if(err) throw err;
+        inquirer.prompt([
+            {
+                name: 'newRole',
+                type: 'input',
+                message: "What is the new role?"
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: "What is the salary?"
+            },
+            {
+                name: 'department',
+                type: 'list',
+                choices: function() {
+                    var newDepartment = [];
+                    for (let i = 0; i < res.length; i++) {
+                        newDepartment.push(res[i].name);
+                    }
+                    return newDepartment;
+                }, 
+            }
+        ]).then(function (answer) {
+            let department_id;
+            for (let a = 0; a < res.length; a++) {
+                if (res[a].name == answer.department) {
+                    department_id = res[a].id;
+                }
+            }
+            connection.query(
+                'INSERT INTO roles SET ?',
+                {
+                    title: answer.newRole,
+                    salary: answer.salary,
+                    department_id: department_id
+                },
+                function (err, res) {
+                    if(err) throw err;
+                    console.log('Role has been added!');
+                    options();
+                })  
+            })
+    })
+};
 
-
-//View All Departments
-// showDepartments = () => {
-//     const sql = 'SELECT * FROM department';
-
-//     connection.query((err, res) => {
-//         if (err) throw err;
-//         console.table('All Departments:', res);
-//         option();
-//     })
-// };
-
-//View All Roles
-// showRoles = () => {
-//     const sql = 'SELECT * FROM roles';
-
-//     connection.query((err, res) => {
-//         if (err) throw err;
-//         console.table('All Roles:', res);
-//         option();
-//     })
-// };
-
-// //Add Employee
-// addEmployee = () => {
-//     connection.query('SELECT * FROM', (err, res) => {
-//         if (err) throw err;
-//         inquirer.prompt ([
-//             { 
-//                 name: 'first_name',
-//                 type: 'input',
-//                 message: "What is the employee's first name?",
-//             },
-//             {
-//                 name: 'last_name',
-//                 type: 'input',
-//                 message: "What is the employee's last name?",
-//             },
-//             {
-//                 name: 'role_id',
-//                 type: 'input',
-//                 message: "What is the employee's role?",
-//             }
-//         ])
-//     })
+//Add Department
+function addDepartment() {
+        inquirer.prompt([
+            {
+                name: 'departments',
+                type: 'input',
+                messsage: "Which department do you want to add to?"
+            }
+            ]).then(function (answer) {
+                connection.query(
+                    'INSERT INTO department SET ?',
+                    {
+                        name: answer.departments,
+                    }),
+                    connection.query('SELECT * FROM department', (err, res) => {
+                        if(err) throw err;
+                        console.log('Department has been added!');
+                        console.table('All departments:', res);
+                    })
+                })  
+            
+        
+};
