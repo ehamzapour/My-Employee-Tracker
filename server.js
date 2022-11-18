@@ -113,6 +113,63 @@ function showRoles() {
     })
 }
 
+//Add Employee
+function addEmployee() {
+    connection.query('SELECT * FROM roles',(err, res) => {
+        if(err) throw err;
+        inquirer.prompt([
+            {
+                name: 'first_name',
+                type: 'input',
+                message: "What is the employee's first name?"
+            },
+            {
+                name: 'last_name',
+                type: 'input',
+                message: "What is the employee's last name?"
+            },
+            {
+                name: 'manager_id',
+                type: 'input',
+                message: "What is the employee's manager's id?"
+            },
+            {
+                name: 'roles',
+                type: 'list',
+                choices: function() {
+                    var newRole = [];
+                    for (let i = 0; i < res.length; i++) {
+                        newRole.push(res[i].title);
+                    }
+                    return newRole;
+                },
+                message: "What is the employee's role?"  
+            }
+        ]).then(function (answer) {
+            let roles_id;
+            for (let a = 0; a < res.length; a++) {
+                if (res[a].title == answer.roles) {
+                    roles_id = res[a].id;
+                    console.log(roles_id)
+                }
+            }
+            connection.query(
+                'INSERT INTO employee SET ?',
+                {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    roles_id: roles_id,
+                    manager_id: answer.manager_id,
+                },
+                function (err) {
+                    if (err) throw err;
+                    console.log('Employee has been added!');
+                    options();
+                })  
+            })
+    })
+};
+
    
                         
 
