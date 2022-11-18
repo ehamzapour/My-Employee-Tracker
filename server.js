@@ -237,65 +237,66 @@ function addDepartment() {
                         if(err) throw err;
                         console.log('Department has been added!');
                         console.table('All departments:', res);
+                        options();
                     })
                 })  
             
         
 };
 
-//Update Employee Role
-function employeeUpdate() {
-    const updateEmployee = `SELECT * FROM employee`;
+// //Update Employee Role
+// function employeeUpdate() {
+//     const updateEmployee = `SELECT * FROM employee`;
 
-    connection.promise().query(updateEmployee, (err, data) => {
-        if(err) throw err;
+//     connection.promise().query(updateEmployee, (err, data) => {
+//         if(err) throw err;
 
-        const employees = data.map(({id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
+//         const employees = data.map(({id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
 
-        inquirer.prompt([
-            {
-                type: 'list',
-                name: 'name',
-                message: "Which employee would you like to update?",
-                choices: employees
-            }
-        ])
-        .then(updateEmployee => {
-            const employee = updateEmployee.name;
-            const params = [];
-            params.push(employee);
+//         inquirer.prompt([
+//             {
+//                 type: 'list',
+//                 name: 'name',
+//                 message: "Which employee would you like to update?",
+//                 choices: employees
+//             }
+//         ])
+//         .then(updateEmployee => {
+//             const employee = updateEmployee.name;
+//             const params = [];
+//             params.push(employee);
 
-            const updateRole = `SELECT * FROM roles`;
-            connection.promise().query(updateRole, (err, data) => {
-                if(err) throw err;
+//             const updateRole = `SELECT * FROM roles`;
+//             connection.promise().query(updateRole, (err, data) => {
+//                 if(err) throw err;
                 
-                const roleUpdate = data.map(({ id, title}) => ({ name: title, value: id }));
+//                 const roleUpdate = data.map(({ id, title}) => ({ name: title, value: id }));
 
-                inquirer.prompt([
-                    {
-                        type: 'list',
-                        name: 'roles',
-                        message: "What is the employee's new role?",
-                        choices: role
-                    }
-                ])
-                .then(roleChoice => {
-                    const roles = roleChoice.role;
-                    params.push(roles);
+//                 inquirer.prompt([
+//                     {
+//                         type: 'list',
+//                         name: 'roles',
+//                         message: "What is the employee's new role?",
+//                         choices: role
+//                     }
+//                 ])
+//                 .then(roleChoice => {
+//                     const roles = roleChoice.role;
+//                     params.push(roles);
 
-                    let employee = params[0]
-                    params[0] = roles
-                    params [1] = employee
+//                     let employee = params[0]
+//                     params[0] = roles
+//                     params [1] = employee
 
-                    const update = `UPDATE employee SET roles_id = ? WHERE id = ?`;
+//                     const update = `UPDATE employee SET roles_id = ? WHERE id = ?`;
 
-                    connection.query(update, params, (err, result) => {
-                        if(err) throw err;
-                        console.log("Employee has been updated!");
-                        options();
-                    })
-                })
-            })
-        })
-    });
-}
+//                     connection.query(update, params, (err, result) => {
+//                         if(err) throw err;
+//                         console.log("Employee has been updated!");
+//                         options();
+//                     })
+//                 })
+//             })
+//         })
+//     });
+// }
