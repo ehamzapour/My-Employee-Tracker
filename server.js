@@ -27,7 +27,7 @@ startPrompt = () => {
 
 //Prompt to Choose from List
 const options = () => {
-    inquirer.prompt ([
+    inquirer.prompt (
         {
             type: 'list',
             name: 'choices',
@@ -44,35 +44,35 @@ const options = () => {
             ]
         }
 
-    ])
+    )
 
-    .then((answer) => {
+    .then(answer => {
         switch (answer.choices) {
 
-        case "View all employees":
+        case "View All Employees":
             showEmployees();
             break;
 
-        case "View all departments":
+        case "View All Departments":
             showDepartments();
             break;
 
-        case "View all roles":
+        case "View All Roles":
             showRoles();
             break;
         
 
-        case "Add employee":
+        case "Add Employee":
             addEmployee();
             break;
         
 
-        case "Add role":
+        case "Add Role":
             addRole();
             break;
         
 
-        case "Add department":
+        case "Add Department":
             addDepartment();
             break;
         
@@ -90,15 +90,28 @@ const options = () => {
 };
 
 //View All Employees
-showEmployees = () => {
-    var query = 'SELECT * FROM employee';
-    connection.query(query, (err, res) => {
-        if (err) throw err;
-        console.log(res.length + 'Success!');
-        console.table('All Employees:', res);
+function showEmployees() {
+    connection.promise().query('SELECT * FROM employee').then(allEmployees => {
+        console.table(allEmployees[0])
+        options();
     })
-};
-    
+}
+
+//View All Departments
+function showDepartments() {
+    connection.promise().query('SELECT * FROM department').then(allDepartments => {
+        console.table(allDepartments[0])
+        options();
+    })
+}
+
+//View All Roles
+function showRoles() {
+    connection.promise().query('SELECT * FROM roles').then(allRoles => {
+        console.table(allRoles[0])
+        options();
+    })
+}
 
    
                         
